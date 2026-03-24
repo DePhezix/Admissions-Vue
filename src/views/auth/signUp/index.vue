@@ -57,18 +57,7 @@
         </el-breadcrumb>
 
         <div class="flex flex-col gap-[14px] items-center">
-          <img
-            :src="
-              phase === 3
-                ? 'src/assets/imgs/auth_verification_icon.avif'
-                : phase == 1 || phase == 2 || phase == 4
-                  ? '/src/assets/imgs/auth_user_icon.avif'
-                  : phase == 5
-                    ? '/src/assets/imgs/auth_direction_icon.avif'
-                    : '/src/assets/imgs/auth_schools_icon.avif'
-            "
-            class="max-sm:hidden w-[88px]"
-          />
+          <img :src="authIcon" class="max-sm:hidden w-[88px]" />
           <header class="flex flex-col gap-[4px]">
             <h1
               class="sf-display font-[600] text-[24px] leading-[32px] text-[#303030] sm:text-center"
@@ -445,6 +434,10 @@ import { useRoute, useRouter } from "vue-router";
 import { ArrowRight } from "@element-plus/icons-vue";
 import { useAuthStore } from "@/stores";
 import RadioCard from "@/components/radioCard.vue";
+import authVerificationIcon from "@/assets/imgs/auth_verification_icon.avif";
+import authUserIcon from "@/assets/imgs/auth_user_icon.avif";
+import authDirectionIcon from "@/assets/imgs/auth_direction_icon.avif";
+import authSchoolsIcon from "@/assets/imgs/auth_schools_icon.avif";
 
 import type { FormInstance, FormRules } from "element-plus";
 import type {
@@ -632,6 +625,13 @@ const countries = [
   { label: "Zambia", value: "zambia" },
   { label: "Zimbabwe", value: "zimbabwe" },
 ];
+
+const authIcon = computed(() => {
+  if (phase.value === 3) return authVerificationIcon;
+  if ([1, 2, 4].includes(phase.value)) return authUserIcon;
+  if (phase.value === 5) return authDirectionIcon;
+  return authSchoolsIcon;
+});
 
 const router = useRouter();
 const route = useRoute();
